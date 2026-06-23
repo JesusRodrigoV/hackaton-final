@@ -1,1 +1,273 @@
-<router-outlet />
+<main class="app-shell" [class.dark-theme]="darkMode()">
+  <header class="topbar" aria-label="Navegación principal">
+    <a class="brand" href="#inicio" aria-label="NeoLend inicio">
+      <span class="brand-mark" aria-hidden="true">N</span>
+      <span>NeoLend</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Secciones">
+      <a href="#simulador">Solicitud</a>
+      <a href="#scoring">Scoring</a>
+      <a href="#arquitectura">Arquitectura</a>
+      <a href="#metricas">Métricas</a>
+    </nav>
+
+    <button class="icon-button" type="button" (click)="toggleTheme()" [attr.aria-label]="darkMode() ? 'Activar modo claro' : 'Activar modo oscuro'">
+      @if (darkMode()) {
+        <span aria-hidden="true">☀</span>
+      } @else {
+        <span aria-hidden="true">◐</span>
+      }
+    </button>
+  </header>
+
+  <section id="inicio" class="hero section">
+    <div class="hero-copy">
+      <h1>NeoLend Financial Corp.</h1>
+      <p>
+        Plataforma FinTech académica para simular crédito digital en minutos con scoring alternativo,
+        auditoría inmutable, fraude local y operación de cartera en tiempo real.
+      </p>
+      <div class="hero-actions">
+        <a class="button primary" href="#simulador">Simular solicitud</a>
+        <a class="button secondary" href="#arquitectura">Ver arquitectura</a>
+      </div>
+      <dl class="hero-stats" aria-label="Indicadores del prototipo">
+        <div>
+          <dt>≤ 90 s</dt>
+          <dd>Decisión automática</dd>
+        </div>
+        <div>
+          <dt>AES-256</dt>
+          <dd>Enfoque regulatorio</dd>
+        </div>
+        <div>
+          <dt>Local</dt>
+          <dd>Biometría sin nube externa</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="phone-stage" aria-label="Vista móvil simulada">
+      <div class="phone">
+        <div class="phone-status">
+          <span>NeoLend App</span>
+          <span>4G</span>
+        </div>
+        <div class="phone-card active">
+          <span class="step-number">1</span>
+          <strong>Sube CI</strong>
+          <small>OCR y biometría local</small>
+        </div>
+        <div class="phone-card">
+          <span class="step-number">2</span>
+          <strong>Score alternativo</strong>
+          <small>Servicios, billetera, e-commerce</small>
+        </div>
+        <div class="phone-card">
+          <span class="step-number">3</span>
+          <strong>Desembolso</strong>
+          <small>Billetera, banco o corresponsal</small>
+        </div>
+        <div class="phone-result">
+          <span>Resultado estimado</span>
+          <strong>{{ decision().state }}</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="scope-band section" aria-labelledby="scope-title">
+    <div>
+      <h2 id="scope-title">Alcance académico sin plataformas pagas</h2>
+      <p>
+        Los volúmenes del enunciado se representan como escenarios de arquitectura, no como operación
+        real. La entrega queda preparada para pruebas locales y demostración funcional.
+      </p>
+    </div>
+    <ul class="scope-list">
+      @for (item of scopeItems; track item) {
+        <li>{{ item }}</li>
+      }
+    </ul>
+  </section>
+
+  <section id="simulador" class="section simulator-grid" aria-labelledby="simulator-title">
+    <div class="section-heading">
+      <h2 id="simulator-title">Simulador de solicitud</h2>
+      <p>Representa el flujo móvil de menos de 3 minutos y la decisión que consumirá Backend 1.</p>
+    </div>
+
+    <form class="simulator-panel" aria-label="Formulario de simulación">
+      <label>
+        <span>Monto solicitado: USD {{ amount() }}</span>
+        <input type="range" min="100" max="1500" step="50" [ngModel]="amount()" name="amount" (ngModelChange)="setAmount($event)" />
+      </label>
+
+      <fieldset>
+        <legend>Segmento del solicitante</legend>
+        <div class="segmented-control">
+          <button type="button" [class.selected]="selectedSegment() === 'nuevo'" (click)="setSegment('nuevo')">Nuevo</button>
+          <button type="button" [class.selected]="selectedSegment() === 'comercio'" (click)="setSegment('comercio')">POS comercio</button>
+          <button type="button" [class.selected]="selectedSegment() === 'recurrente'" (click)="setSegment('recurrente')">Recurrente</button>
+        </div>
+      </fieldset>
+
+      <label>
+        <span>Pagos de servicios al día: {{ utilitiesScore() }}%</span>
+        <input type="range" min="0" max="100" [ngModel]="utilitiesScore()" name="utilities" (ngModelChange)="setScore('utilities', $event)" />
+      </label>
+
+      <label>
+        <span>Actividad de billetera digital: {{ walletScore() }}%</span>
+        <input type="range" min="0" max="100" [ngModel]="walletScore()" name="wallet" (ngModelChange)="setScore('wallet', $event)" />
+      </label>
+
+      <label>
+        <span>Compras e-commerce y recargas: {{ commerceScore() }}%</span>
+        <input type="range" min="0" max="100" [ngModel]="commerceScore()" name="commerce" (ngModelChange)="setScore('commerce', $event)" />
+      </label>
+    </form>
+
+    <aside class="decision-panel" [class]="decision().tone" aria-live="polite">
+      <span class="panel-label">Decisión simulada</span>
+      <strong>{{ decision().state }}</strong>
+      <p>{{ decision().reason }}</p>
+      <div class="decision-values">
+        <span>Score <b>{{ score() }}</b></span>
+        <span>Tasa <b>{{ estimatedRate() }}</b></span>
+        <span>Firma <b>SHA-256</b></span>
+      </div>
+    </aside>
+  </section>
+
+  <section id="scoring" class="section scoring-section" aria-labelledby="scoring-title">
+    <div class="section-heading compact">
+      <h2 id="scoring-title">Scoring explicable y resiliente</h2>
+      <p>SHAP visible para analistas, caché TTL para el buró SOAP y fallback si el mainframe excede el timeout.</p>
+    </div>
+
+    <div class="shap-panel">
+      @for (source of shapValues(); track trackByLabel($index, source)) {
+        <div class="shap-row">
+          <div>
+            <strong>{{ source.label }}</strong>
+            <small>{{ source.key }} · {{ source.value > 0 ? '+' : '' }}{{ source.value }}</small>
+          </div>
+          <div class="bar-track" [class.negative]="source.sentiment === 'negative'">
+            <span [style.width.%]="abs(source.value) * 100"></span>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="section audit-grid" aria-labelledby="audit-title">
+    <div>
+      <div class="section-heading compact align-left">
+        <h2 id="audit-title">Auditoría inmutable</h2>
+        <p>Cada acción se modela como evento append-only para reconstrucción completa ante la Superintendencia.</p>
+      </div>
+      <div class="event-timeline">
+        @for (event of eventSteps(); track trackByType($index, event)) {
+          <article class="event-row">
+            <span class="event-dot" aria-hidden="true"></span>
+            <div>
+              <strong>{{ event.type }}</strong>
+              <p>{{ event.detail }}</p>
+              <small>{{ event.service }}</small>
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+
+    <div class="compliance-panel">
+      <h3>Controles regulatorios</h3>
+      <ul>
+        <li>Cifrado de datos financieros con enfoque AES-256.</li>
+        <li>Hash SHA-256 y firma digital por decisión consolidada.</li>
+        <li>Logs auditables por 10 años en `event_store`.</li>
+        <li>Auditoría mensual de sesgo demográfico y explicabilidad.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="arquitectura" class="section architecture-section" aria-labelledby="architecture-title">
+    <div class="section-heading compact">
+      <h2 id="architecture-title">Arquitectura por microservicios</h2>
+      <p>Diseñada para desarrollo local, demostración académica y contratos claros con el backend.</p>
+    </div>
+
+    <div class="module-grid">
+      @for (module of backendModules; track trackByModule($index, module)) {
+        <article class="module-card">
+          <span>{{ module.owner }}</span>
+          <h3>{{ module.name }}</h3>
+          <p>{{ module.focus }}</p>
+          <div class="endpoint-list">
+            @for (endpoint of module.endpoints; track endpoint) {
+              <code>{{ endpoint }}</code>
+            }
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section id="metricas" class="section metrics-section" aria-labelledby="metrics-title">
+    <div class="section-heading compact align-left">
+      <h2 id="metrics-title">Portal de inversionistas y operaciones</h2>
+      <p>Panel en tiempo real simulado para cartera, exposición, cobranza y flujo de caja proyectado.</p>
+    </div>
+
+    <div class="metrics-grid">
+      @for (metric of investorMetrics; track trackByLabel($index, metric)) {
+        <article class="metric-card">
+          <span>{{ metric.label }}</span>
+          <strong>{{ metric.value }}</strong>
+          <small>{{ metric.trend }}</small>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section class="section operations-grid" aria-labelledby="operations-title">
+    <div class="operations-copy">
+      <h2 id="operations-title">Fraude, cobranza y educación financiera</h2>
+      <p>
+        El prototipo une data residency biométrica, disparadores de WhatsApp/SMS/email simulados,
+        acuerdos de pago y cursos que reducen la tasa de interés.
+      </p>
+      <button class="button primary" type="button" (click)="completeCourse()">Completar curso simulado</button>
+    </div>
+
+    <div class="ops-stack">
+      <article>
+        <strong>Biometría local</strong>
+        <span>Vector facial hash guardado en Backend 3, sin APIs cloud extranjeras.</span>
+      </article>
+      <article>
+        <strong>Cobranza</strong>
+        <span>Recordatorios, acuerdos de pago, reestructuración y reporte a buró.</span>
+      </article>
+      <article>
+        <strong>Gamificación</strong>
+        <span>{{ educationPoints() }} puntos activos · tasa ajustada {{ estimatedRate() }}.</span>
+      </article>
+    </div>
+  </section>
+
+  <section class="section concept-section" aria-labelledby="concept-title">
+    <div class="section-heading compact align-left">
+      <h2 id="concept-title">Referencia visual del prototipo</h2>
+      <p>Imagen generada localmente para mantener una guía de diseño verificable durante la construcción.</p>
+    </div>
+    <img src="assets/neolend-concept.png" alt="Concepto visual de NeoLend con landing, simulador móvil, scoring y arquitectura" />
+  </section>
+
+  <footer class="footer">
+    <span>NeoLend Financial Corp. · MVP académico</span>
+    <a href="#inicio">Volver arriba</a>
+  </footer>
+</main>
