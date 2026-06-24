@@ -139,8 +139,8 @@ export class DetalleComponent {
 
   readonly id = input<string>('');
   readonly solicitud = computed(() => this.#creditoService.getSolicitudById(this.id()));
-  readonly scoringResult = this.#scoringService.generarScore(this.solicitud()?.monto ?? 0);
-  readonly scoreData = computed<ScoreCredito>(() => this.scoringResult.score);
+  readonly scoringResult = computed(() => this.#scoringService.generarScore(this.solicitud()?.monto ?? 0));
+  readonly scoreData = computed<ScoreCredito>(() => this.scoringResult().score);
   readonly fraudeAnalisis = computed<AnalisisFraude>(() =>
     this.#fraudeService.analizarDocumento(this.id(), 'mock-doc'),
   );

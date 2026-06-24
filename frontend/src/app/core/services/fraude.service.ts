@@ -42,7 +42,6 @@ export class FraudeService {
       biometria,
     };
 
-    this.#ultimoAnalisis.set(analisis);
     return analisis;
   }
 }
