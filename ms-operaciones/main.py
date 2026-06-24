@@ -17,11 +17,16 @@ async def global_exception_handler(request: Request, exc: Exception):
     return JSONResponse(status_code=500, content={"detail": str(exc)})
 
 
-@app.on_event("startup")
-def on_startup():
+#@app.on_event("startup")
+#def on_startup():
     # create tables synchronously using sync_engine for metadata
-    Base.metadata.create_all(bind=engine.sync_engine)
-
+    #Base.metadata.create_all(bind=engine.sync_engine)
+#    async with engine.begin() as conn:
+#        await conn.run_sync(Base.metadata.create_all)  # ✅ correcto
+@app.on_event("startup")
+async def startup():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)  # ✅ correcto
 
 # ARRANQUE:
 # 1. Crea un archivo .env con: DATABASE_URL=postgresql+asyncpg://user:pass@localhost:5432/ms_operaciones

@@ -37,18 +37,34 @@ class DesembolsoRequest(BaseModel):
     monto_desembolsar: Decimal
 
 
+#class DesembolsoResponse(BaseModel):
+#    desembolso_id: UUID
+#    credito_id: UUID
+#    billetera_id: Optional[UUID]
+#    monto: Decimal
+#    estado: str
+
+#    model_config = ConfigDict(from_attributes=True)
+
+#class DesembolsoIdempotenteResponse(DesembolsoResponse):
+#    ya_procesado: bool
+
 class DesembolsoResponse(BaseModel):
     desembolso_id: UUID
     credito_id: UUID
-    billetera_id: Optional[UUID]
+    billetera_id: Optional[UUID] = None
     monto: Decimal
     estado: str
-
     model_config = ConfigDict(from_attributes=True)
 
-
-class DesembolsoIdempotenteResponse(DesembolsoResponse):
-    ya_procesado: bool
+class DesembolsoIdempotenteResponse(BaseModel):
+    desembolso_id: UUID
+    credito_id: UUID
+    billetera_id: Optional[UUID] = None
+    monto: Decimal
+    estado: str
+    ya_procesado: bool = False  # ✅ default False — no rompe el caso nuevo
+    model_config = ConfigDict(from_attributes=True)
 
 
 class MetricResponse(BaseModel):
