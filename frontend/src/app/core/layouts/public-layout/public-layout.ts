@@ -10,6 +10,7 @@ import { LogoComponent } from '../../../shared/components/logo/logo';
         <app-logo />
         <nav class="public-nav">
           <a routerLink="/solicitar" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Solicitar crédito</a>
+          <a routerLink="/solicitar/mis-creditos" class="nav-link" routerLinkActive="active">Mis créditos</a>
           <a routerLink="/analista" class="nav-link">Panel Analista</a>
           <a routerLink="/inversores" class="nav-link">Inversores</a>
           <a routerLink="/educacion" class="nav-link">Educación</a>

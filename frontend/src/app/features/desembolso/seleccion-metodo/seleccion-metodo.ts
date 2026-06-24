@@ -99,10 +99,10 @@ export class SeleccionMetodoComponent {
     return campos.every(c => this.formValues()[c.key]?.trim());
   });
 
-  confirmar(): void {
+  async confirmar(): Promise<void> {
     const metodo = this.selected();
     if (!metodo || !this.id()) return;
-    this.desembolsoService.procesarDesembolso(this.id(), metodo, this.formValues());
+    await this.desembolsoService.procesarDesembolso(this.id(), metodo, this.formValues());
     this.#router.navigate(['/solicitar', this.id(), 'desembolso', 'confirmacion']);
   }
 }

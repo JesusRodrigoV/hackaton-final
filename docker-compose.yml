@@ -1,4 +1,15 @@
 services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - api-gateway
+    networks:
+      - hackaton-net
+
   api-gateway:
     build:
       context: ./api-gateway
@@ -7,7 +18,7 @@ services:
       - "8001:8001"
     environment:
       PORT: 8001
-      CREDIT_SERVICE_URL: http://host.docker.internal:8000
+      CREDIT_SERVICE_URL: http://app:8000
       SCORING_RAW_SERVICE_URL: http://ms-scoring:5000
       OPERATIONS_SERVICE_URL: http://ms-operaciones:8003
       PROXY_TIMEOUT_MS: 12000
@@ -15,6 +26,42 @@ services:
     depends_on:
       - ms-scoring
       - ms-operaciones
+    networks:
+      - hackaton-net
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg2://postgres:62625054@app-db:5432/KATAFINAL
+      SCORING_SERVICE_URL: http://api-gateway:8001
+      OPERATIONS_SERVICE_URL: http://api-gateway:8001
+      SECRET_KEY_PROD: super-secret-key-para-firmas-de-auditoria-2026
+      ENVIRONMENT: development
+    depends_on:
+      app-db:
+        condition: service_healthy
+    networks:
+      - hackaton-net
+
+  app-db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "62625054"
+      POSTGRES_DB: KATAFINAL
+    ports:
+      - "5432:5432"
+    volumes:
+      - app_core_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d KATAFINAL"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - hackaton-net
 
@@ -66,4 +113,5 @@ networks:
     driver: bridge
 
 volumes:
+  app_core_data:
   ms_operaciones_data:

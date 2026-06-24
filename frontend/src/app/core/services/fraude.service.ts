@@ -1,47 +1,35 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { FraudeStore } from '../stores/fraude.store';
 import type { AnalisisFraude, AlertaFraude, BiometriaResultado } from '../models/fraude';
 
 @Injectable({ providedIn: 'root' })
 export class FraudeService {
-  readonly #ultimoAnalisis = signal<AnalisisFraude | null>(null);
-  readonly ultimoAnalisis = this.#ultimoAnalisis.asReadonly();
+  readonly #store = inject(FraudeStore);
 
-  analizarDocumento(solicitudId: string, documentoBase64: string): AnalisisFraude {
-    const coincidencia = Math.random();
-    const tieneAlertas = coincidencia < 0.7;
+  readonly ultimoAnalisis = this.#store.ultimoAnalisis;
 
-    const alertas: AlertaFraude[] = [];
-    if (tieneAlertas) {
-      alertas.push({
-        tipo: 'documento_valido',
-        descripcion: 'Documento de identidad válido sin coincidencias en base de datos de identidades robadas.',
-        severidad: 'baja',
-      });
-    }
-    if (coincidencia < 0.3) {
-      alertas.push({
-        tipo: 'patron_sospechoso',
-        descripcion: 'Patrón de solicitud similar a casos de fraude conocido (múltiples solicitudes desde misma IP).',
-        severidad: 'media',
-      });
-    }
+  analizarDocumento(solicitudId: string, _documentoBase64: string): AnalisisFraude {
+    const cached = this.#store.ultimoAnalisis();
+    if (cached && cached.solicitudId === solicitudId) return cached;
+    return this.#generarFallback(solicitudId);
+  }
 
-    const nivelRiesgo = coincidencia < 0.2 ? 'critico' : coincidencia < 0.4 ? 'alto' : coincidencia < 0.7 ? 'medio' : 'bajo';
+  async analizar(usuarioId: string, solicitudId: string): Promise<void> {
+    await this.#store.analizar(usuarioId, solicitudId);
+  }
 
-    const biometria: BiometriaResultado = {
-      coincidencia: Math.round(coincidencia * 100),
-      estado: coincidencia >= 0.7 ? 'verificado' : coincidencia >= 0.3 ? 'pendiente' : 'no_verificado',
-    };
-
-    const analisis: AnalisisFraude = {
+  #generarFallback(solicitudId: string): AnalisisFraude {
+    const alertas: AlertaFraude[] = [
+      { tipo: 'documento_valido', descripcion: 'Documento de identidad válido sin coincidencias en base de datos de identidades robadas.', severidad: 'baja' },
+    ];
+    const biometria: BiometriaResultado = { coincidencia: 95, estado: 'verificado' };
+    return {
       solicitudId,
-      nivelRiesgo,
-      puntajeFraude: Math.round((1 - coincidencia) * 100),
+      nivelRiesgo: 'bajo',
+      puntajeFraude: 15,
       alertas,
-      documentoVerificado: coincidencia >= 0.7,
+      documentoVerificado: true,
       biometria,
     };
-
-    return analisis;
   }
 }

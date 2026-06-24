@@ -2,7 +2,8 @@
 
 ## Servicios
 
-- `app`: Backend 1 Core Creditos. FastAPI. Ejecutar localmente en `http://localhost:8000`.
+- `frontend`: Angular. Landing + pantallas funcionales. Docker expone `http://localhost:4200`.
+- `app`: Backend 1 Core Creditos. FastAPI. Docker expone `http://localhost:8000`.
 - `api-gateway`: puerta de entrada y adaptador de contratos. Puerto `8001`.
 - `ms-scoring`: Backend 2 Scoring. Node/Express. Puerto `5000`.
 - `ms-operaciones`: Backend 3 Fraude, Desembolsos y Operaciones. Docker expone `http://localhost:8002`.
@@ -13,18 +14,44 @@ El archivo `.env` va en la raiz del proyecto, al mismo nivel que `app`.
 
 `app/core/config.py` ya lee `.env`, por lo que se debe iniciar `uvicorn` desde la raiz del proyecto.
 
-## Ejecutar Backend 1 local
+## Ejecutar todo en Docker
+
+```bash
+docker compose up --build
+```
+
+Servicios principales:
+
+- Frontend: `http://localhost:4200`
+- API Gateway: `http://localhost:8001`
+- Core creditos (`app`): `http://localhost:8000`
+- Scoring: `http://localhost:5000`
+- Operaciones: `http://localhost:8002`
+- Postgres Core: `localhost:5432`
+- Postgres Operaciones: `localhost:5435`
+
+`app` ejecuta `alembic upgrade head` automaticamente al arrancar.
+
+## Ejecutar Backend 1 local, opcional
 
 ```bash
 pip install -r requirements.txt
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-## Ejecutar API Gateway + ms-scoring en Docker
+## Ejecutar stack Docker
 
 ```bash
 docker compose up --build
 ```
+
+Abrir el frontend:
+
+```text
+http://localhost:4200
+```
+
+El frontend consume todos los microservicios por el API Gateway usando rutas `/api/*`.
 
 En Docker, el Gateway consume:
 

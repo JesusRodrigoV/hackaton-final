@@ -214,26 +214,32 @@ export class FormularioComponent {
     this.currentStep.update(s => Math.max(s - 1, 0));
   }
 
-  enviar(): void {
+  async enviar(): Promise<void> {
     this.enviando.set(true);
+    try {
+      await this.#authService.loginSolicitante('', this.nombre());
 
-    this.#authService.loginSolicitante('documento-mock', this.nombre());
+      const solicitud = await this.#creditoService.crearSolicitud({
+        monto: this.monto(),
+        plazoMeses: this.plazo()?.value ?? 6,
+        motivo: this.motivo(),
+        documentoBase64: '',
+      });
 
-    const solicitud = this.#creditoService.crearSolicitud({
-      monto: this.monto(),
-      plazoMeses: this.plazo()?.value ?? 6,
-      motivo: this.motivo(),
-      documentoBase64: 'mock-base64',
-    });
-
-    setTimeout(() => {
-      this.enviando.set(false);
       this.#message.add({
         severity: 'success',
         summary: 'Solicitud enviada',
         detail: 'Estamos evaluando su crédito...',
       });
       this.#router.navigate(['/solicitar', solicitud.id]);
-    }, 1500);
+    } catch (err: any) {
+      this.#message.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: err?.message ?? 'No se pudo procesar la solicitud',
+      });
+    } finally {
+      this.enviando.set(false);
+    }
   }
 }

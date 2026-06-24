@@ -1,43 +1,33 @@
-import { Injectable, signal, computed } from '@angular/core';
-import type { Usuario, AuthState } from '../models/usuario';
+import { Injectable, inject, computed, effect } from '@angular/core';
+import { MessageService } from 'primeng/api';
+import { AuthStore } from '../stores/auth.store';
+import type { Usuario } from '../models/usuario';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  readonly #state = signal<AuthState>({
-    usuario: null,
-    token: null,
-    isAuthenticated: false,
-  });
+  readonly #store = inject(AuthStore);
+  readonly #message = inject(MessageService);
 
-  readonly usuario = computed(() => this.#state().usuario);
-  readonly isAuthenticated = computed(() => this.#state().isAuthenticated);
-  readonly isAnalista = computed(() => this.#state().usuario?.rol === 'analista' || this.#state().usuario?.rol === 'admin');
+  readonly usuario = computed(() => this.#store.usuario());
+  readonly isAuthenticated = computed(() => this.#store.isAuthenticated());
+  readonly isAnalista = this.#store.isAnalista;
 
-  login(documento: string, password: string): void {
-    const mockUser: Usuario = {
-      id: crypto.randomUUID(),
-      nombre: 'Analista Demo',
-      email: 'analista@neolend.com',
-      documento,
-      telefono: '59170000000',
-      rol: 'analista',
-    };
-    this.#state.set({ usuario: mockUser, token: 'mock-token', isAuthenticated: true });
+  constructor() {
+    effect(() => {
+      const err = this.#store.error();
+      if (err) this.#message.add({ severity: 'error', summary: 'Error de autenticación', detail: err, life: 5000 });
+    });
   }
 
-  loginSolicitante(documento: string, nombre: string): void {
-    const mockUser: Usuario = {
-      id: crypto.randomUUID(),
-      nombre,
-      email: '',
-      documento,
-      telefono: '',
-      rol: 'solicitante',
-    };
-    this.#state.set({ usuario: mockUser, token: 'mock-token', isAuthenticated: true });
+  async login(documento: string, _password: string): Promise<void> {
+    this.#store.login({ documento, nombre: 'Analista NeoLend', rol: 'analista' });
+  }
+
+  async loginSolicitante(documento: string, nombre: string): Promise<void> {
+    this.#store.login({ documento, nombre, rol: 'solicitante' });
   }
 
   logout(): void {
-    this.#state.set({ usuario: null, token: null, isAuthenticated: false });
+    this.#store.logout();
   }
 }

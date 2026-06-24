@@ -18,6 +18,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/solicitud/resultado/resultado').then(c => c.ResultadoComponent),
       },
       {
+        path: 'solicitar/mis-creditos',
+        loadComponent: () => import('./features/solicitud/mis-creditos/mis-creditos').then(c => c.MisCreditosComponent),
+      },
+      {
         path: 'solicitar/:id/desembolso',
         loadComponent: () => import('./features/desembolso/seleccion-metodo/seleccion-metodo').then(c => c.SeleccionMetodoComponent),
       },
