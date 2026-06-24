@@ -1,0 +1,40 @@
+services:
+  ms-operaciones:
+    build: .
+    container_name: ms-operaciones
+    ports:
+      - "8003:8003"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://neolend:neolend123@db:5432/ms_operaciones
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - neolend_network
+    restart: unless-stopped
+
+  db:
+    image: postgres:15-alpine
+    container_name: ms-operaciones-db
+    environment:
+      POSTGRES_USER: neolend
+      POSTGRES_PASSWORD: neolend123
+      POSTGRES_DB: ms_operaciones
+    ports:
+      - "5435:5432"
+    volumes:
+      - ms_operaciones_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U neolend -d ms_operaciones"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - neolend_network
+
+networks:
+  neolend_network:
+    driver: bridge
+
+volumes:
+  ms_operaciones_data:
