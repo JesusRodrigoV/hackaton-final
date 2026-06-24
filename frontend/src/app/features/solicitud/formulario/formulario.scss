@@ -1,0 +1,78 @@
+.form-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.form-card {
+  background: var(--p-surface-0);
+  border: 1px solid var(--p-surface-200);
+  border-radius: var(--radius-card-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-card);
+}
+.form-header { text-align: center; margin-bottom: 2rem; }
+.form-header h1 { font-size: 1.5rem; font-weight: 700; color: var(--p-surface-900); margin: 0 0 0.5rem; }
+.form-subtitle { color: var(--p-surface-400); font-size: 0.9rem; margin: 0; }
+.step-content { min-height: 260px; }
+.step-title { font-size: 1.1rem; font-weight: 600; color: var(--p-surface-700); margin: 0 0 0.25rem; }
+.step-desc { color: var(--p-surface-400); font-size: 0.85rem; margin: 0 0 1.5rem; }
+.field { margin-bottom: 1.25rem; }
+.field-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--p-surface-600);
+  margin-bottom: 0.5rem;
+}
+.field-error {
+  display: block;
+  color: var(--p-red-500);
+  font-size: 0.75rem;
+  margin-top: 0.35rem;
+}
+.fields-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.full-width { grid-column: 1 / -1; }
+:host ::ng-deep .input-field {
+  width: 100%;
+}
+:host ::ng-deep .p-inputtext,
+:host ::ng-deep .p-select,
+:host ::ng-deep .p-inputnumber {
+  width: 100%;
+}
+.resumen {
+  background: var(--p-surface-50);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.resumen-label { color: var(--p-surface-400); font-size: 0.85rem; }
+.resumen-value { color: var(--p-primary-600); font-weight: 700; font-size: 1.1rem; }
+.review-card {
+  background: var(--p-surface-50);
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+.review-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--p-surface-100);
+}
+.review-row:last-child { border-bottom: none; }
+.review-label { color: var(--p-surface-400); font-size: 0.85rem; }
+.review-value { color: var(--p-surface-700); font-weight: 600; font-size: 0.9rem; }
+.review-value.highlight { color: var(--p-primary-600); font-size: 1.1rem; }
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  gap: 1rem;
+}

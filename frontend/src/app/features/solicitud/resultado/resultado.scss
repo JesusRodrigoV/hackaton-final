@@ -1,0 +1,61 @@
+.resultado-container {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+}
+.resultado-card {
+  background: var(--p-surface-0);
+  border: 1px solid var(--p-surface-200);
+  border-radius: var(--radius-card-lg);
+  padding: 2rem;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+.resultado-header { margin-bottom: 1.5rem; }
+.resultado-header h1 { font-size: 1.3rem; font-weight: 700; color: var(--p-surface-900); margin: 0 0 0.25rem; }
+.solicitud-id { font-size: 0.8rem; color: var(--p-surface-300); font-family: monospace; margin: 0; }
+.score-section { margin: 1.5rem 0; display: flex; justify-content: center; }
+.decision-badge { margin-bottom: 1.5rem; }
+.aprobado-box, .rechazado-box, .revision-box {
+  background: var(--p-surface-50);
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  border: 1px solid var(--p-surface-200);
+}
+.aprobado-box { border-color: var(--p-green-500); }
+.rechazado-box { border-color: var(--p-red-500); }
+.revision-box { border-color: var(--p-yellow-500); }
+.aprobado-text { color: var(--p-green-500); font-weight: 600; margin: 0 0 1rem; font-size: 0.95rem; }
+.rechazado-text { color: var(--p-red-500); font-weight: 600; margin: 0 0 0.5rem; font-size: 0.95rem; }
+.rechazado-detail { color: var(--p-surface-500); font-size: 0.85rem; margin: 0; }
+.revision-text { color: var(--p-yellow-500); font-weight: 600; margin: 0 0 0.5rem; font-size: 0.95rem; }
+.revision-id { color: var(--p-surface-500); font-size: 0.85rem; margin: 0; }
+.condiciones { display: flex; flex-direction: column; gap: 0.75rem; }
+.cond-row {
+  display: flex;
+  justify-content: space-between;
+  color: var(--p-surface-500);
+  font-size: 0.85rem;
+}
+.cond-row strong { color: var(--p-surface-700); }
+.cond-row .maximo { color: var(--p-green-500); }
+.cond-row .tasa { color: var(--p-primary-600); }
+.fraude-section { margin: 1.5rem 0; text-align: left; }
+.shap-section { margin: 1.5rem 0; text-align: left; }
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+.loading-card {
+  background: var(--p-surface-0);
+  border: 1px solid var(--p-surface-200);
+  border-radius: var(--radius-card-lg);
+  padding: 3rem;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+.loading-text { color: var(--p-surface-400); font-size: 0.95rem; }

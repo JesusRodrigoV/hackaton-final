@@ -1,0 +1,11 @@
+.confirmacion-container { max-width: 480px; margin: 0 auto; width: 100%; }
+.conf-card { background: var(--p-surface-0); border: 1px solid var(--p-surface-200); border-radius: var(--radius-card-lg); padding: 2.5rem 2rem; text-align: center; box-shadow: var(--shadow-card); }
+.conf-icon { margin-bottom: 1rem; }
+.conf-card h1 { font-size: 1.4rem; font-weight: 700; color: var(--p-surface-900); margin: 0 0 0.5rem; }
+.conf-desc { color: var(--p-surface-400); font-size: 0.9rem; margin: 0 0 1.5rem; line-height: 1.5; }
+.conf-details { background: var(--p-surface-50); border-radius: 10px; padding: 1.25rem; margin: 1.5rem 0; text-align: left; }
+.conf-row { display: flex; justify-content: space-between; padding: 0.5rem 0; font-size: 0.85rem; color: var(--p-surface-500); }
+.conf-row strong { color: var(--p-surface-700); }
+.conf-row .mono { font-family: monospace; color: var(--p-surface-400); font-size: 0.8rem; }
+.actions { margin-top: 1rem; }
+.loading-text { color: var(--p-surface-400); font-size: 0.95rem; margin: 2rem 0; }
