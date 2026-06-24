@@ -1,273 +1,396 @@
 <main class="app-shell" [class.dark-theme]="darkMode()">
-  <header class="topbar" aria-label="Navegación principal">
+  <header class="topbar">
     <a class="brand" href="#inicio" aria-label="NeoLend inicio">
-      <span class="brand-mark" aria-hidden="true">N</span>
-      <span>NeoLend</span>
+      <span class="brand-mark">N</span>
+      <span>NeoLend Financial Corp.</span>
     </a>
 
-    <nav class="nav-links" aria-label="Secciones">
-      <a href="#simulador">Solicitud</a>
-      <a href="#scoring">Scoring</a>
-      <a href="#arquitectura">Arquitectura</a>
-      <a href="#metricas">Métricas</a>
+    <nav class="desktop-nav" aria-label="Navegacion principal">
+      <a href="#producto">Producto</a>
+      <a href="#pantallas">Pantallas</a>
+      <a href="#gateway">API Gateway</a>
+      <a href="#auditoria">Auditoria</a>
     </nav>
 
-    <button class="icon-button" type="button" (click)="toggleTheme()" [attr.aria-label]="darkMode() ? 'Activar modo claro' : 'Activar modo oscuro'">
-      @if (darkMode()) {
-        <span aria-hidden="true">☀</span>
-      } @else {
-        <span aria-hidden="true">◐</span>
-      }
-    </button>
+    <div class="topbar-actions">
+      <button class="ghost-button" type="button" (click)="toggleTheme()">
+        {{ darkMode() ? 'Claro' : 'Oscuro' }}
+      </button>
+      <a class="solid-button" href="#pantallas">Abrir demo</a>
+    </div>
   </header>
 
-  <section id="inicio" class="hero section">
+  <section id="inicio" class="hero-section">
     <div class="hero-copy">
-      <h1>NeoLend Financial Corp.</h1>
-      <p>
-        Plataforma FinTech académica para simular crédito digital en minutos con scoring alternativo,
-        auditoría inmutable, fraude local y operación de cartera en tiempo real.
+      <p class="section-kicker">Credito digital alternativo para Latinoamerica</p>
+      <h1>Credito en minutos con scoring explicable y auditoria lista para regulador.</h1>
+      <p class="hero-lead">
+        Un frontend academico para demostrar la plataforma NeoLend: solicitud movil, score SHAP,
+        fraude local, desembolsos, cartera de inversionistas y API Gateway consumiendo todos los microservicios.
       </p>
+
       <div class="hero-actions">
-        <a class="button primary" href="#simulador">Simular solicitud</a>
-        <a class="button secondary" href="#arquitectura">Ver arquitectura</a>
+        <a class="solid-button large" href="#pantallas">Simular credito</a>
+        <button class="ghost-button large" type="button" (click)="consultarGateway()">Probar Gateway</button>
       </div>
-      <dl class="hero-stats" aria-label="Indicadores del prototipo">
+
+      <dl class="hero-metrics">
         <div>
-          <dt>≤ 90 s</dt>
-          <dd>Decisión automática</dd>
+          <dt>{{ score() }}</dt>
+          <dd>score actual</dd>
         </div>
         <div>
-          <dt>AES-256</dt>
-          <dd>Enfoque regulatorio</dd>
+          <dt>{{ decision().label }}</dt>
+          <dd>decision</dd>
         </div>
         <div>
-          <dt>Local</dt>
-          <dd>Biometría sin nube externa</dd>
+          <dt>{{ tasa() }}</dt>
+          <dd>tasa estimada</dd>
         </div>
       </dl>
     </div>
 
-    <div class="phone-stage" aria-label="Vista móvil simulada">
-      <div class="phone">
-        <div class="phone-status">
-          <span>NeoLend App</span>
-          <span>4G</span>
-        </div>
-        <div class="phone-card active">
-          <span class="step-number">1</span>
-          <strong>Sube CI</strong>
-          <small>OCR y biometría local</small>
-        </div>
-        <div class="phone-card">
-          <span class="step-number">2</span>
-          <strong>Score alternativo</strong>
-          <small>Servicios, billetera, e-commerce</small>
-        </div>
-        <div class="phone-card">
-          <span class="step-number">3</span>
-          <strong>Desembolso</strong>
-          <small>Billetera, banco o corresponsal</small>
-        </div>
-        <div class="phone-result">
-          <span>Resultado estimado</span>
-          <strong>{{ decision().state }}</strong>
+    <aside class="phone-preview" aria-label="Vista movil de solicitud">
+      <div class="phone-top">
+        <span>NeoLend App</span>
+        <b>{{ decision().label }}</b>
+      </div>
+      <div class="phone-score">
+        <span>Score</span>
+        <strong>{{ score() }}</strong>
+      </div>
+      <div class="phone-step active">
+        <span>1</span>
+        <div>
+          <b>Documento</b>
+          <small>CI {{ ci() }}</small>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section class="scope-band section" aria-labelledby="scope-title">
-    <div>
-      <h2 id="scope-title">Alcance académico sin plataformas pagas</h2>
-      <p>
-        Los volúmenes del enunciado se representan como escenarios de arquitectura, no como operación
-        real. La entrega queda preparada para pruebas locales y demostración funcional.
-      </p>
-    </div>
-    <ul class="scope-list">
-      @for (item of scopeItems; track item) {
-        <li>{{ item }}</li>
-      }
-    </ul>
-  </section>
-
-  <section id="simulador" class="section simulator-grid" aria-labelledby="simulator-title">
-    <div class="section-heading">
-      <h2 id="simulator-title">Simulador de solicitud</h2>
-      <p>Representa el flujo móvil de menos de 3 minutos y la decisión que consumirá Backend 1.</p>
-    </div>
-
-    <form class="simulator-panel" aria-label="Formulario de simulación">
-      <label>
-        <span>Monto solicitado: USD {{ amount() }}</span>
-        <input type="range" min="100" max="1500" step="50" [ngModel]="amount()" name="amount" (ngModelChange)="setAmount($event)" />
-      </label>
-
-      <fieldset>
-        <legend>Segmento del solicitante</legend>
-        <div class="segmented-control">
-          <button type="button" [class.selected]="selectedSegment() === 'nuevo'" (click)="setSegment('nuevo')">Nuevo</button>
-          <button type="button" [class.selected]="selectedSegment() === 'comercio'" (click)="setSegment('comercio')">POS comercio</button>
-          <button type="button" [class.selected]="selectedSegment() === 'recurrente'" (click)="setSegment('recurrente')">Recurrente</button>
+      <div class="phone-step">
+        <span>2</span>
+        <div>
+          <b>Scoring SHAP</b>
+          <small>{{ origenScoring() }}</small>
         </div>
-      </fieldset>
-
-      <label>
-        <span>Pagos de servicios al día: {{ utilitiesScore() }}%</span>
-        <input type="range" min="0" max="100" [ngModel]="utilitiesScore()" name="utilities" (ngModelChange)="setScore('utilities', $event)" />
-      </label>
-
-      <label>
-        <span>Actividad de billetera digital: {{ walletScore() }}%</span>
-        <input type="range" min="0" max="100" [ngModel]="walletScore()" name="wallet" (ngModelChange)="setScore('wallet', $event)" />
-      </label>
-
-      <label>
-        <span>Compras e-commerce y recargas: {{ commerceScore() }}%</span>
-        <input type="range" min="0" max="100" [ngModel]="commerceScore()" name="commerce" (ngModelChange)="setScore('commerce', $event)" />
-      </label>
-    </form>
-
-    <aside class="decision-panel" [class]="decision().tone" aria-live="polite">
-      <span class="panel-label">Decisión simulada</span>
-      <strong>{{ decision().state }}</strong>
-      <p>{{ decision().reason }}</p>
-      <div class="decision-values">
-        <span>Score <b>{{ score() }}</b></span>
-        <span>Tasa <b>{{ estimatedRate() }}</b></span>
-        <span>Firma <b>SHA-256</b></span>
+      </div>
+      <div class="phone-step">
+        <span>3</span>
+        <div>
+          <b>Desembolso</b>
+          <small>{{ desembolsoId() || 'pendiente' }}</small>
+        </div>
       </div>
     </aside>
   </section>
 
-  <section id="scoring" class="section scoring-section" aria-labelledby="scoring-title">
-    <div class="section-heading compact">
-      <h2 id="scoring-title">Scoring explicable y resiliente</h2>
-      <p>SHAP visible para analistas, caché TTL para el buró SOAP y fallback si el mainframe excede el timeout.</p>
-    </div>
-
-    <div class="shap-panel">
-      @for (source of shapValues(); track trackByLabel($index, source)) {
-        <div class="shap-row">
-          <div>
-            <strong>{{ source.label }}</strong>
-            <small>{{ source.key }} · {{ source.value > 0 ? '+' : '' }}{{ source.value }}</small>
-          </div>
-          <div class="bar-track" [class.negative]="source.sentiment === 'negative'">
-            <span [style.width.%]="abs(source.value) * 100"></span>
-          </div>
-        </div>
-      }
-    </div>
+  <section id="producto" class="product-band">
+    <article>
+      <span>01</span>
+      <h2>Landing primero, no login.</h2>
+      <p>El usuario ve la propuesta, el flujo, los controles de seguridad y luego entra a la simulacion.</p>
+    </article>
+    <article>
+      <span>02</span>
+      <h2>Todo pasa por Gateway.</h2>
+      <p>El frontend consume `/api/*`; el Gateway enruta a `app`, `ms-scoring` y `ms-operaciones`.</p>
+    </article>
+    <article>
+      <span>03</span>
+      <h2>Demo util aun sin backend.</h2>
+      <p>Los calculos locales mantienen la interfaz viva; los botones prueban los microservicios reales.</p>
+    </article>
   </section>
 
-  <section class="section audit-grid" aria-labelledby="audit-title">
-    <div>
-      <div class="section-heading compact align-left">
-        <h2 id="audit-title">Auditoría inmutable</h2>
-        <p>Cada acción se modela como evento append-only para reconstrucción completa ante la Superintendencia.</p>
+  <section id="pantallas" class="workspace">
+    <div class="workspace-header">
+      <div>
+        <p class="section-kicker">Pantallas y componentes</p>
+        <h2>Centro operativo NeoLend</h2>
       </div>
-      <div class="event-timeline">
-        @for (event of eventSteps(); track trackByType($index, event)) {
-          <article class="event-row">
-            <span class="event-dot" aria-hidden="true"></span>
-            <div>
-              <strong>{{ event.type }}</strong>
-              <p>{{ event.detail }}</p>
-              <small>{{ event.service }}</small>
+      <div class="status-pill" [class]="decision().tone">
+        <span></span>
+        {{ decision().label }}
+      </div>
+    </div>
+
+    <div class="screen-tabs" role="tablist" aria-label="Pantallas del producto">
+      @for (screen of screens; track trackByLabel($index, screen)) {
+        <button
+          type="button"
+          role="tab"
+          [attr.aria-selected]="activeScreen() === screen.id"
+          [class.active]="activeScreen() === screen.id"
+          (click)="setScreen(screen.id)"
+        >
+          <b>{{ screen.label }}</b>
+          <span>{{ screen.description }}</span>
+        </button>
+      }
+    </div>
+
+    <div class="screen-layout">
+      <section class="active-panel">
+        @switch (activeScreen()) {
+          @case ('solicitud') {
+            <div class="panel-heading">
+              <p class="section-kicker">Solicitud de credito</p>
+              <h3>Flujo movil menor a 3 minutos</h3>
+              <p>Simula lo que el solicitante enviara desde la app: identidad, monto, plazo y datos alternativos.</p>
             </div>
-          </article>
+
+            <div class="form-grid">
+              <label>
+                <span>Nombre</span>
+                <input type="text" [ngModel]="nombre()" (ngModelChange)="nombre.set($event)" name="nombre" />
+              </label>
+              <label>
+                <span>CI</span>
+                <input type="text" [ngModel]="ci()" (ngModelChange)="ci.set($event)" name="ci" />
+              </label>
+              <label>
+                <span>Telefono</span>
+                <input type="text" [ngModel]="telefono()" (ngModelChange)="telefono.set($event)" name="telefono" />
+              </label>
+              <label>
+                <span>Monto USD {{ monto() }}</span>
+                <input type="range" min="100" max="1500" step="50" [ngModel]="monto()" (ngModelChange)="setMonto($event)" name="monto" />
+              </label>
+              <label>
+                <span>Plazo {{ plazoMeses() }} meses</span>
+                <input type="range" min="1" max="60" [ngModel]="plazoMeses()" (ngModelChange)="setPlazo($event)" name="plazo" />
+              </label>
+            </div>
+
+            <div class="segment-control">
+              <button type="button" [class.active]="segmento() === 'nuevo'" (click)="setSegment('nuevo')">Nuevo</button>
+              <button type="button" [class.active]="segmento() === 'pos'" (click)="setSegment('pos')">POS comercio</button>
+              <button type="button" [class.active]="segmento() === 'recurrente'" (click)="setSegment('recurrente')">Recurrente</button>
+            </div>
+
+            <div class="action-row">
+              <button class="solid-button" type="button" (click)="registrarUsuario()" [disabled]="loading() !== ''">
+                Registrar usuario
+              </button>
+              <button class="ghost-button" type="button" (click)="evaluarScoring()" [disabled]="loading() !== ''">
+                Evaluar scoring
+              </button>
+            </div>
+          }
+
+          @case ('scoring') {
+            <div class="panel-heading">
+              <p class="section-kicker">Scoring SHAP</p>
+              <h3>Motor de riesgo explicable</h3>
+              <p>Consume `ms-scoring` por el Gateway y muestra las variables que explican el puntaje.</p>
+            </div>
+
+            <div class="slider-stack">
+              <label>
+                <span>Servicios al dia {{ servicios() }}%</span>
+                <input type="range" min="0" max="100" [ngModel]="servicios()" (ngModelChange)="setData('servicios', $event)" name="servicios" />
+              </label>
+              <label>
+                <span>Billetera digital {{ billetera() }}%</span>
+                <input type="range" min="0" max="100" [ngModel]="billetera()" (ngModelChange)="setData('billetera', $event)" name="billetera" />
+              </label>
+              <label>
+                <span>E-commerce {{ ecommerce() }}%</span>
+                <input type="range" min="0" max="100" [ngModel]="ecommerce()" (ngModelChange)="setData('ecommerce', $event)" name="ecommerce" />
+              </label>
+              <label>
+                <span>Recargas moviles {{ recargas() }}%</span>
+                <input type="range" min="0" max="100" [ngModel]="recargas()" (ngModelChange)="setData('recargas', $event)" name="recargas" />
+              </label>
+            </div>
+
+            <div class="shap-list">
+              @for (item of shapItems(); track trackByLabel($index, item)) {
+                <article>
+                  <div>
+                    <b>{{ item.label }}</b>
+                    <small>{{ item.key }} · {{ item.value > 0 ? '+' : '' }}{{ item.value }}</small>
+                  </div>
+                  <div class="bar" [class.negative]="item.value < 0">
+                    <span [style.width.%]="maxBarWidth(item.value)"></span>
+                  </div>
+                </article>
+              }
+            </div>
+
+            <button class="solid-button" type="button" (click)="evaluarScoring()" [disabled]="loading() !== ''">
+              Consumir ms-scoring
+            </button>
+          }
+
+          @case ('fraude') {
+            <div class="panel-heading">
+              <p class="section-kicker">Fraude local</p>
+              <h3>Biometria sin nube externa</h3>
+              <p>Registra un usuario en `ms-operaciones` y consulta su estado biometrico por ruta interna.</p>
+            </div>
+
+            <div class="evidence-grid">
+              <article>
+                <span>Usuario</span>
+                <strong>{{ usuarioId() || 'sin registrar' }}</strong>
+              </article>
+              <article>
+                <span>Data residency</span>
+                <strong>Local</strong>
+              </article>
+              <article>
+                <span>Riesgo esperado</span>
+                <strong>Bajo</strong>
+              </article>
+            </div>
+
+            <div class="action-row">
+              <button class="solid-button" type="button" (click)="registrarUsuario()" [disabled]="loading() !== ''">Registrar usuario</button>
+              <button class="ghost-button" type="button" (click)="verificarFraude()" [disabled]="loading() !== ''">Verificar fraude</button>
+            </div>
+          }
+
+          @case ('operaciones') {
+            <div class="panel-heading">
+              <p class="section-kicker">Desembolsos y cobranza</p>
+              <h3>Entrega multicanal con idempotencia</h3>
+              <p>El Gateway transforma `desembolso_id` en `transaccion_id`, que es lo que Backend 1 espera.</p>
+            </div>
+
+            <div class="evidence-grid">
+              <article>
+                <span>Monto a desembolsar</span>
+                <strong>USD {{ monto() }}</strong>
+              </article>
+              <article>
+                <span>Transaccion</span>
+                <strong>{{ desembolsoId() || 'pendiente' }}</strong>
+              </article>
+              <article>
+                <span>Cobranza</span>
+                <strong>WhatsApp/SMS</strong>
+              </article>
+            </div>
+
+            <div class="action-row">
+              <button class="solid-button" type="button" (click)="ejecutarDesembolso()" [disabled]="loading() !== ''">Ejecutar desembolso</button>
+              <button class="ghost-button" type="button" (click)="completarCurso()" [disabled]="loading() !== ''">Completar curso</button>
+            </div>
+          }
+
+          @case ('inversionistas') {
+            <div class="panel-heading">
+              <p class="section-kicker">Portal de inversionistas</p>
+              <h3>Metricas de cartera en tiempo real</h3>
+              <p>Lee la ruta de `ms-operaciones` para TIR simulada, mora y flujo proyectado.</p>
+            </div>
+
+            <div class="metric-grid">
+              @for (metric of investorMetrics(); track trackByLabel($index, metric)) {
+                <article>
+                  <span>{{ metric.label }}</span>
+                  <strong>{{ metric.value }}</strong>
+                  <small>{{ metric.detail }}</small>
+                </article>
+              }
+            </div>
+
+            <button class="solid-button" type="button" (click)="cargarMetricas()" [disabled]="loading() !== ''">
+              Cargar metricas reales
+            </button>
+          }
+
+          @case ('auditoria') {
+            <div class="panel-heading">
+              <p class="section-kicker">Event sourcing</p>
+              <h3>Trazabilidad regulatoria</h3>
+              <p>La vista muestra el recorrido que Backend 1 debe guardar en `event_store` con firma SHA-256.</p>
+            </div>
+
+            <div class="timeline">
+              @for (event of eventSteps(); track trackByEvent($index, event)) {
+                <article>
+                  <span></span>
+                  <div>
+                    <b>{{ event.title }}</b>
+                    <p>{{ event.description }}</p>
+                    <small>{{ event.service }}</small>
+                  </div>
+                </article>
+              }
+            </div>
+          }
+
+          @case ('gateway') {
+            <div class="panel-heading">
+              <p class="section-kicker">API Gateway</p>
+              <h3>Un solo punto para el frontend</h3>
+              <p>El frontend no debe llamar a cada MS directamente. Todo sale por `/api`.</p>
+            </div>
+
+            <div class="module-list">
+              @for (module of moduleStatuses(); track trackByLabel($index, module)) {
+                <article [class]="module.tone">
+                  <div>
+                    <b>{{ module.name }}</b>
+                    <code>{{ module.route }}</code>
+                  </div>
+                  <span>{{ module.status }}</span>
+                </article>
+              }
+            </div>
+
+            <button class="solid-button" type="button" (click)="consultarGateway()" [disabled]="loading() !== ''">
+              Consultar rutas Gateway
+            </button>
+          }
         }
+      </section>
+
+      <aside class="inspector-panel">
+        <div class="score-card" [class]="decision().tone">
+          <span>Score actual</span>
+          <strong>{{ score() }}</strong>
+          <p>{{ decision().detail }}</p>
+        </div>
+
+        <div class="api-card" [class.error]="apiResult().status === 'error'" [class.ok]="apiResult().status === 'ok'">
+          <div class="api-card-head">
+            <span>Respuesta API</span>
+            <b>{{ loading() || apiResult().title }}</b>
+          </div>
+          <pre>{{ apiResult().body | json }}</pre>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="gateway" class="architecture-section">
+    <div>
+      <p class="section-kicker">Arquitectura del frontend</p>
+      <h2>Una interfaz, tres microservicios y un Gateway.</h2>
+    </div>
+
+    <div class="architecture-map">
+      <article>
+        <b>Frontend Angular</b>
+        <span>Landing + pantallas funcionales</span>
+      </article>
+      <div class="connector">/api</div>
+      <article>
+        <b>API Gateway</b>
+        <span>Proxy + adaptadores de contrato</span>
+      </article>
+      <div class="service-stack">
+        <span>app: creditos / auditoria</span>
+        <span>ms-scoring: SHAP / breaker</span>
+        <span>ms-operaciones: fraude / desembolsos / cartera</span>
       </div>
     </div>
-
-    <div class="compliance-panel">
-      <h3>Controles regulatorios</h3>
-      <ul>
-        <li>Cifrado de datos financieros con enfoque AES-256.</li>
-        <li>Hash SHA-256 y firma digital por decisión consolidada.</li>
-        <li>Logs auditables por 10 años en `event_store`.</li>
-        <li>Auditoría mensual de sesgo demográfico y explicabilidad.</li>
-      </ul>
-    </div>
   </section>
 
-  <section id="arquitectura" class="section architecture-section" aria-labelledby="architecture-title">
-    <div class="section-heading compact">
-      <h2 id="architecture-title">Arquitectura por microservicios</h2>
-      <p>Diseñada para desarrollo local, demostración académica y contratos claros con el backend.</p>
-    </div>
-
-    <div class="module-grid">
-      @for (module of backendModules; track trackByModule($index, module)) {
-        <article class="module-card">
-          <span>{{ module.owner }}</span>
-          <h3>{{ module.name }}</h3>
-          <p>{{ module.focus }}</p>
-          <div class="endpoint-list">
-            @for (endpoint of module.endpoints; track endpoint) {
-              <code>{{ endpoint }}</code>
-            }
-          </div>
-        </article>
-      }
-    </div>
-  </section>
-
-  <section id="metricas" class="section metrics-section" aria-labelledby="metrics-title">
-    <div class="section-heading compact align-left">
-      <h2 id="metrics-title">Portal de inversionistas y operaciones</h2>
-      <p>Panel en tiempo real simulado para cartera, exposición, cobranza y flujo de caja proyectado.</p>
-    </div>
-
-    <div class="metrics-grid">
-      @for (metric of investorMetrics; track trackByLabel($index, metric)) {
-        <article class="metric-card">
-          <span>{{ metric.label }}</span>
-          <strong>{{ metric.value }}</strong>
-          <small>{{ metric.trend }}</small>
-        </article>
-      }
-    </div>
-  </section>
-
-  <section class="section operations-grid" aria-labelledby="operations-title">
-    <div class="operations-copy">
-      <h2 id="operations-title">Fraude, cobranza y educación financiera</h2>
-      <p>
-        El prototipo une data residency biométrica, disparadores de WhatsApp/SMS/email simulados,
-        acuerdos de pago y cursos que reducen la tasa de interés.
-      </p>
-      <button class="button primary" type="button" (click)="completeCourse()">Completar curso simulado</button>
-    </div>
-
-    <div class="ops-stack">
-      <article>
-        <strong>Biometría local</strong>
-        <span>Vector facial hash guardado en Backend 3, sin APIs cloud extranjeras.</span>
-      </article>
-      <article>
-        <strong>Cobranza</strong>
-        <span>Recordatorios, acuerdos de pago, reestructuración y reporte a buró.</span>
-      </article>
-      <article>
-        <strong>Gamificación</strong>
-        <span>{{ educationPoints() }} puntos activos · tasa ajustada {{ estimatedRate() }}.</span>
-      </article>
-    </div>
-  </section>
-
-  <section class="section concept-section" aria-labelledby="concept-title">
-    <div class="section-heading compact align-left">
-      <h2 id="concept-title">Referencia visual del prototipo</h2>
-      <p>Imagen generada localmente para mantener una guía de diseño verificable durante la construcción.</p>
-    </div>
-    <img src="assets/neolend-concept.png" alt="Concepto visual de NeoLend con landing, simulador móvil, scoring y arquitectura" />
-  </section>
-
-  <footer class="footer">
-    <span>NeoLend Financial Corp. · MVP académico</span>
+  <footer id="auditoria" class="footer">
+    <span>NeoLend Financial Corp. · MVP academico</span>
     <a href="#inicio">Volver arriba</a>
   </footer>
 </main>

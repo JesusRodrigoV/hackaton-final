@@ -1,3 +1,4 @@
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import {
   provideRouter,
@@ -16,6 +17,7 @@ export const appConfig: ApplicationConfig = {
     MessageService,
     ConfirmationService,
     provideBrowserGlobalErrorListeners(),
+    provideHttpClient(withFetch()),
     provideRouter(
       routes,
       withComponentInputBinding(),
