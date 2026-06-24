@@ -44,13 +44,19 @@ const routes = [
     name: 'operations-fraude',
     prefix: '/api/fraude',
     target: OPERATIONS_SERVICE_URL,
-    rewritePrefix: '/api/fraude',
+    rewritePrefix: '/api/interno/fraude',
+  },
+  {
+    name: 'operations-usuarios',
+    prefix: '/api/usuarios',
+    target: OPERATIONS_SERVICE_URL,
+    rewritePrefix: '/api/usuarios',
   },
   {
     name: 'operations-desembolsos',
     prefix: '/api/desembolsos',
     target: OPERATIONS_SERVICE_URL,
-    rewritePrefix: '/api/desembolsos',
+    rewritePrefix: '/api/interno/desembolsos',
   },
   {
     name: 'operations-inversionistas',
@@ -59,10 +65,16 @@ const routes = [
     rewritePrefix: '/api/inversionistas',
   },
   {
-    name: 'operations-interno',
-    prefix: '/api/interno/operaciones',
+    name: 'operations-interno-fraude',
+    prefix: '/api/interno/fraude',
     target: OPERATIONS_SERVICE_URL,
-    rewritePrefix: '/api/interno',
+    rewritePrefix: '/api/interno/fraude',
+  },
+  {
+    name: 'operations-interno-desembolsos',
+    prefix: '/api/interno/desembolsos',
+    target: OPERATIONS_SERVICE_URL,
+    rewritePrefix: '/api/interno/desembolsos',
   },
 ];
 
@@ -259,6 +271,53 @@ async function handleInternalScoring(req, res) {
   }
 }
 
+async function handleInternalDisbursement(req, res) {
+  if (req.method !== 'POST') {
+    sendJson(res, 405, { error: 'METHOD_NOT_ALLOWED', allowed: 'POST' });
+    return;
+  }
+
+  let payload;
+  try {
+    payload = await readJsonBody(req);
+  } catch {
+    sendJson(res, 400, { error: 'INVALID_JSON' });
+    return;
+  }
+
+  const operationsUrl = new URL('/api/interno/desembolsos/ejecutar', OPERATIONS_SERVICE_URL);
+
+  try {
+    const response = await fetch(operationsUrl, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(PROXY_TIMEOUT_MS),
+    });
+
+    const raw = await response.json();
+    if (!response.ok) {
+      sendJson(res, response.status, {
+        error: 'OPERATIONS_SERVICE_ERROR',
+        detail: raw,
+      });
+      return;
+    }
+
+    sendJson(res, 200, {
+      transaccion_id: String(raw.desembolso_id || raw.transaccion_id),
+      estado: raw.estado,
+      ya_procesado: Boolean(raw.ya_procesado),
+      ms_operaciones_trace: raw,
+    });
+  } catch (error) {
+    sendJson(res, 503, {
+      error: 'OPERATIONS_UNAVAILABLE',
+      detail: error.message,
+    });
+  }
+}
+
 const server = http.createServer((req, res) => {
   const currentUrl = new URL(req.url || '/', `http://${req.headers.host || 'localhost'}`);
   const { pathname, search } = currentUrl;
@@ -289,6 +348,12 @@ const server = http.createServer((req, res) => {
           type: 'adapter',
           target: `${SCORING_RAW_SERVICE_URL}/scoring/evaluar`,
         },
+        {
+          method: 'POST',
+          path: '/api/interno/desembolsos/ejecutar',
+          type: 'adapter',
+          target: `${OPERATIONS_SERVICE_URL}/api/interno/desembolsos/ejecutar`,
+        },
         ...routes.map((route) => ({
           path: `${route.prefix}/*`,
           type: 'proxy',
@@ -302,6 +367,11 @@ const server = http.createServer((req, res) => {
 
   if (pathname === '/api/interno/scoring/evaluar') {
     void handleInternalScoring(req, res);
+    return;
+  }
+
+  if (pathname === '/api/interno/desembolsos/ejecutar') {
+    void handleInternalDisbursement(req, res);
     return;
   }
 

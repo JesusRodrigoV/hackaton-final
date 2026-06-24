@@ -5,7 +5,7 @@
 - `app`: Backend 1 Core Creditos. FastAPI. Ejecutar localmente en `http://localhost:8000`.
 - `api-gateway`: puerta de entrada y adaptador de contratos. Puerto `8001`.
 - `ms-scoring`: Backend 2 Scoring. Node/Express. Puerto `5000`.
-- Futuro Backend 3 Operaciones/Fraude. Esperado en `http://localhost:8002`.
+- `ms-operaciones`: Backend 3 Fraude, Desembolsos y Operaciones. Docker expone `http://localhost:8002`.
 
 ## .env de Backend 1
 
@@ -30,7 +30,7 @@ En Docker, el Gateway consume:
 
 - `app`: `http://host.docker.internal:8000`
 - `ms-scoring`: `http://ms-scoring:5000`
-- operaciones futuro: `http://host.docker.internal:8002`
+- `ms-operaciones`: `http://ms-operaciones:8003`
 
 ## Rutas del Gateway
 
@@ -58,6 +58,23 @@ GET  http://localhost:8001/api/scoring/breaker-status
 GET  http://localhost:8001/api/scoring/evaluaciones
 GET  http://localhost:8001/api/scoring/cache-local
 POST http://localhost:8001/api/scoring/cache-clear
+```
+
+Operaciones hacia `ms-operaciones`:
+
+```http
+POST http://localhost:8001/api/usuarios/registrar
+POST http://localhost:8001/api/usuarios/gamificacion/curso
+GET  http://localhost:8001/api/fraude/estado/{usuario_id}
+POST http://localhost:8001/api/desembolsos/ejecutar
+GET  http://localhost:8001/api/inversionistas/metricas
+```
+
+Rutas internas usadas por Backend 1:
+
+```http
+GET  http://localhost:8001/api/interno/fraude/estado/{usuario_id}
+POST http://localhost:8001/api/interno/desembolsos/ejecutar
 ```
 
 Adaptador interno para Backend 1:
@@ -89,5 +106,23 @@ Salida adaptada para `app`:
     "buro_tradicional": 0.25
   },
   "origen_datos": "SOAP_MAINFRAME"
+}
+```
+
+El adaptador de desembolsos convierte la respuesta de `ms-operaciones`:
+
+```json
+{
+  "desembolso_id": "uuid",
+  "estado": "COMPLETADO"
+}
+```
+
+en la respuesta esperada por Backend 1:
+
+```json
+{
+  "transaccion_id": "uuid",
+  "estado": "COMPLETADO"
 }
 ```

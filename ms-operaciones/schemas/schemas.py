@@ -48,7 +48,7 @@ class DesembolsoResponse(BaseModel):
 
 
 class DesembolsoIdempotenteResponse(DesembolsoResponse):
-    ya_procesado: bool
+    ya_procesado: bool = False
 
 
 class MetricResponse(BaseModel):
