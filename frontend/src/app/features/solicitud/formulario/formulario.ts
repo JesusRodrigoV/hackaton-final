@@ -201,6 +201,18 @@ export class FormularioComponent {
     this.file.set(f);
   }
 
+  #fileToBase64(f: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = reader.result as string;
+        resolve(result.split(',')[1]);
+      };
+      reader.onerror = () => reject(new Error('Error al leer el archivo'));
+      reader.readAsDataURL(f);
+    });
+  }
+
   nextStep(): void {
     if (this.canProceed()) {
       this.currentStep.update(s => Math.min(s + 1, this.steps.length - 1));
@@ -219,11 +231,14 @@ export class FormularioComponent {
     try {
       await this.#authService.loginSolicitante('', this.nombre());
 
+      const f = this.file();
+      const documentoBase64 = f ? await this.#fileToBase64(f) : '';
+
       const solicitud = await this.#creditoService.crearSolicitud({
         monto: this.monto(),
         plazoMeses: this.plazo()?.value ?? 6,
         motivo: this.motivo(),
-        documentoBase64: '',
+        documentoBase64,
       });
 
       this.#message.add({

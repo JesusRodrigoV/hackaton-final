@@ -35,6 +35,7 @@ export const CreditoStore = signalStore(
       monto: number,
       plazoMeses: number,
       motivo: string,
+      documentoBase64: string,
     ): Promise<SolicitudCredito> {
       patchState(store, { loading: true, error: null });
       try {
@@ -44,7 +45,7 @@ export const CreditoStore = signalStore(
             { usuario_id: usuarioId, monto_solicitado: monto, plazo_meses: plazoMeses },
           ),
         );
-        const solicitud: SolicitudCredito = { ...mapCreditoResponse(res), motivo };
+        const solicitud: SolicitudCredito = { ...mapCreditoResponse(res), motivo, documentoUrl: documentoBase64 || '' };
         patchState(store, { solicitudes: [...store.solicitudes(), solicitud], loading: false });
         return solicitud;
       } catch (err: any) {

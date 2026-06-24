@@ -44,7 +44,7 @@ export class CreditoService {
   async crearSolicitud(dto: CrearSolicitudDto): Promise<SolicitudCredito> {
     const usuario = this.#auth.usuario();
     if (!usuario?.id) throw new Error('Usuario no autenticado');
-    const sol = await this.#store.crearSolicitud(usuario.id, dto.monto, dto.plazoMeses, dto.motivo);
+    const sol = await this.#store.crearSolicitud(usuario.id, dto.monto, dto.plazoMeses, dto.motivo, dto.documentoBase64);
     this.#scoring.evaluar(sol.id, sol.usuarioId, sol.monto);
     this.#fraude.analizar(sol.usuarioId, sol.id);
     return sol;
