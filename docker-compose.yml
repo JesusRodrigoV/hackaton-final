@@ -1,10 +1,30 @@
 services:
-  frontend:
+  api-gateway:
     build:
-      context: ./frontend
+      context: ./api-gateway
       dockerfile: Dockerfile
     ports:
-      - "4200:80"
+      - "8001:8001"
+    environment:
+      PORT: 8001
+      CREDIT_SERVICE_URL: http://host.docker.internal:8000
+      SCORING_RAW_SERVICE_URL: http://ms-scoring:5000
+      OPERATIONS_SERVICE_URL: http://host.docker.internal:8002
+      PROXY_TIMEOUT_MS: 12000
+      SCORING_SIMULATE_DELAY: 1
+    depends_on:
+      - ms-scoring
+    networks:
+      - hackaton-net
+
+  ms-scoring:
+    build:
+      context: ./ms-scoring
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      PORT: 5000
     networks:
       - hackaton-net
 
