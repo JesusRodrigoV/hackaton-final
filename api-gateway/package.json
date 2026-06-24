@@ -1,0 +1,14 @@
+{
+  "name": "neolend-api-gateway",
+  "version": "1.0.0",
+  "private": true,
+  "description": "API Gateway para integrar Core Creditos, ms-scoring y futuros microservicios NeoLend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

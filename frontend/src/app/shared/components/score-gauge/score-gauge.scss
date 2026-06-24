@@ -1,0 +1,31 @@
+.gauge-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.gauge-ring {
+  position: relative;
+  width: 140px;
+  height: 140px;
+}
+.gauge-svg { width: 100%; height: 100%; }
+.gauge-arc { transition: stroke-dashoffset 1s ease; }
+.gauge-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.gauge-value { font-size: 2rem; font-weight: 800; color: var(--p-surface-900); line-height: 1; }
+.gauge-label { font-size: 0.75rem; color: var(--p-surface-400); text-transform: uppercase; letter-spacing: 1px; }
+.gauge-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+}
+.gauge-nivel { font-weight: 700; font-size: 0.9rem; text-transform: capitalize; }
+.gauge-max { font-size: 0.75rem; color: var(--p-surface-400); }

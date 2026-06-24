@@ -1,0 +1,56 @@
+.stepper { margin-bottom: 2rem; }
+.steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+.step-indicator {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: var(--p-surface-100);
+  color: var(--p-surface-500);
+  border: 2px solid var(--p-surface-300);
+  transition: all 0.3s;
+}
+.step.active .step-indicator {
+  background: var(--p-primary-500);
+  color: var(--p-surface-0);
+  border-color: var(--p-primary-500);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--p-primary-500) 40%, transparent);
+}
+.step.completed .step-indicator {
+  background: var(--p-green-500);
+  color: var(--p-surface-0);
+  border-color: var(--p-green-500);
+}
+.step-label { font-size: 0.75rem; color: var(--p-surface-500); font-weight: 500; text-align: center; }
+.step.active .step-label { color: var(--p-primary-600); font-weight: 600; }
+.step.completed .step-label { color: var(--p-green-600); }
+.step.clickable { cursor: pointer; }
+.step.clickable:hover .step-indicator { box-shadow: 0 0 8px color-mix(in srgb, var(--p-green-500) 30%, transparent); }
+.step-connector {
+  height: 3px;
+  background: var(--p-surface-200);
+  border-radius: 2px;
+  margin: 0 18px;
+  overflow: hidden;
+}
+.connector-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--p-primary-500), var(--p-green-500));
+  transition: width 0.4s ease;
+  border-radius: 2px;
+}
