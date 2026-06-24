@@ -67,7 +67,7 @@ export class EducacionService {
         lecciones: [
           { id: 'LEC-010', titulo: 'Estafas comunes', contenido: 'Conozca las tácticas más usadas por defraudadores.' },
           { id: 'LEC-011', titulo: 'Protección de datos', contenido: 'Buenas prácticas para mantener su información segura.' },
-          { id: 'LEC-012', titulo: '¿Qué hacer si fuiste víctima?', contenido: 'Pasos a seguir si sospecha que fue defraudado.' },
+          { id: 'LEC-012', titulo: '¿Qué hacer si fue víctima?', contenido: 'Pasos a seguir si sospecha que fue defraudado.' },
         ],
       },
     ];
