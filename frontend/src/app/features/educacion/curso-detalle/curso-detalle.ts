@@ -63,7 +63,7 @@ import { EducacionService } from '../../../core/services/educacion.service';
 
         @if (progreso(); as prog) {
           <div class="progreso-section">
-            <h2 class="section-title">Tu progreso</h2>
+            <h2 class="section-title">Su progreso</h2>
             <div class="progreso-card">
               <div class="progreso-bar-bg">
                 <div class="progreso-bar" [style.width.%]="(prog.leccionesCompletadas / prog.totalLecciones) * 100"></div>

@@ -25,8 +25,8 @@ interface Step {
     <div class="form-container">
       <div class="form-card">
         <div class="form-header">
-          <h1>Solicitá tu crédito</h1>
-          <p class="form-subtitle">Completá tus datos y obtené una respuesta en menos de 3 minutos</p>
+          <h1>Solicite su crédito</h1>
+          <p class="form-subtitle">Complete sus datos y obtenga una respuesta en menos de 3 minutos</p>
         </div>
 
         <app-credit-stepper [steps]="steps" [currentIndex]="currentStep()" (stepChange)="currentStep.set($event)" />
@@ -35,11 +35,11 @@ interface Step {
           @switch (currentStep()) {
             @case (0) {
               <div class="step-panel">
-                <h2 class="step-title">Tu identidad</h2>
-                <p class="step-desc">Subí tu documento de identidad para comenzar</p>
+                <h2 class="step-title">Su identidad</h2>
+                <p class="step-desc">Suba su documento de identidad para comenzar</p>
                 <app-file-upload (fileChange)="onFileChange($event)" />
                 @if (attemptedProceed() && !file()) {
-                  <small class="field-error">Debés subir tu documento de identidad</small>
+                  <small class="field-error">Debe subir su documento de identidad</small>
                 }
                 <div class="field">
                   <label class="field-label">Nombre completo</label>
@@ -61,7 +61,7 @@ interface Step {
                 <h2 class="step-title">Detalles del crédito</h2>
                 <div class="fields-grid">
                   <div class="field">
-                    <label class="field-label">¿Cuánto necesitás?</label>
+                    <label class="field-label">¿Cuánto necesita?</label>
                     <p-inputNumber
                       [(ngModel)]="monto"
                       [min]="50"
@@ -80,11 +80,11 @@ interface Step {
                     <p-select
                       [(ngModel)]="plazo"
                       [options]="plazos"
-                      placeholder="Seleccioná un plazo"
+                      placeholder="Seleccione un plazo"
                       class="input-field"
                     />
                     @if (attemptedProceed() && !plazo()) {
-                      <small class="field-error">Seleccioná un plazo</small>
+                      <small class="field-error">Seleccione un plazo</small>
                     }
                   </div>
                   <div class="field full-width">
@@ -93,14 +93,14 @@ interface Step {
                       pInputTextarea
                       [(ngModel)]="motivo"
                       rows="3"
-                      placeholder="Contanos brevemente para qué necesitás el crédito..."
+                      placeholder="Cuéntenos brevemente para qué necesita el crédito..."
                       class="input-field"
                     ></textarea>
                   </div>
                 </div>
                 @if (monto() > 0) {
                   <div class="resumen">
-                    <span class="resumen-label">Solicitás:</span>
+                    <span class="resumen-label">Solicita:</span>
                     <span class="resumen-value">{{ monto() | currency:'USD':'symbol':'1.0-0' }}</span>
                     @if (plazo()) {
                       <span class="resumen-label">a</span>
@@ -112,7 +112,7 @@ interface Step {
             }
             @case (2) {
               <div class="step-panel review-panel">
-                <h2 class="step-title">Revisá tu solicitud</h2>
+                <h2 class="step-title">Revise su solicitud</h2>
                 <div class="review-card">
                   <div class="review-row">
                     <span class="review-label">Nombre</span>
@@ -231,7 +231,7 @@ export class FormularioComponent {
       this.#message.add({
         severity: 'success',
         summary: 'Solicitud enviada',
-        detail: 'Estamos evaluando tu crédito...',
+        detail: 'Estamos evaluando su crédito...',
       });
       this.#router.navigate(['/solicitar', solicitud.id]);
     }, 1500);

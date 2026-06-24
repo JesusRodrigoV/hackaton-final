@@ -13,8 +13,8 @@ import type { MetodoDesembolsoId } from '../../../core/models/desembolso';
   template: `
     <div class="desembolso-container">
       <div class="header-card">
-        <h1>Recibí tu crédito</h1>
-        <p class="subtitle">Elegí cómo querés recibir el dinero</p>
+        <h1>Reciba su crédito</h1>
+        <p class="subtitle">Elija cómo quiere recibir el dinero</p>
       </div>
 
       @if (solicitud(); as sol) {

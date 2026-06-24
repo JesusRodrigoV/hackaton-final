@@ -17,28 +17,28 @@ export class EducacionService {
       {
         id: 'CUR-001',
         titulo: 'Finanzas Personales para Emprendedores',
-        descripcion: 'Aprendé a gestionar tus ingresos, gastos y ahorros para hacer crecer tu negocio.',
+        descripcion: 'Aprenda a gestionar sus ingresos, gastos y ahorros para hacer crecer su negocio.',
         nivel: 'basico',
         duracionHoras: 4,
         icono: 'wallet',
         bonificacionTasa: 1,
         lecciones: [
-          { id: 'LEC-001', titulo: 'Presupuesto personal', contenido: 'Aprendé a crear y mantener un presupuesto mensual que se ajuste a tus ingresos.' },
-          { id: 'LEC-002', titulo: 'Ahorro inteligente', contenido: 'Estrategias para ahorrar de forma consistente sin sacrificar tu calidad de vida.' },
-          { id: 'LEC-003', titulo: 'Manejo de deudas', contenido: 'Cómo priorizar y gestionar tus deudas de manera efectiva.' },
+          { id: 'LEC-001', titulo: 'Presupuesto personal', contenido: 'Aprenda a crear y mantener un presupuesto mensual que se ajuste a sus ingresos.' },
+          { id: 'LEC-002', titulo: 'Ahorro inteligente', contenido: 'Estrategias para ahorrar de forma consistente sin sacrificar su calidad de vida.' },
+          { id: 'LEC-003', titulo: 'Manejo de deudas', contenido: 'Cómo priorizar y gestionar sus deudas de manera efectiva.' },
         ],
       },
       {
         id: 'CUR-002',
         titulo: 'Credit Scoring Explicado',
-        descripcion: 'Entendé cómo funciona tu score crediticio y qué acciones mejoran tu perfil.',
+        descripcion: 'Entienda cómo funciona su puntaje crediticio y qué acciones mejoran su perfil.',
         nivel: 'basico',
         duracionHoras: 2,
         icono: 'line-chart',
         bonificacionTasa: 1.5,
         lecciones: [
-          { id: 'LEC-004', titulo: '¿Qué es el score crediticio?', contenido: 'Descubrí cómo se calcula tu puntaje y por qué es importante.' },
-          { id: 'LEC-005', titulo: 'Factores que afectan tu score', contenido: 'Conocé qué hábitos financieros mejoran o empeoran tu calificación.' },
+          { id: 'LEC-004', titulo: '¿Qué es el score crediticio?', contenido: 'Descubra cómo se calcula su puntaje y por qué es importante.' },
+          { id: 'LEC-005', titulo: 'Factores que afectan su puntaje', contenido: 'Conozca qué hábitos financieros mejoran o empeoran su calificación.' },
         ],
       },
       {
@@ -50,24 +50,24 @@ export class EducacionService {
         icono: 'briefcase',
         bonificacionTasa: 2,
         lecciones: [
-          { id: 'LEC-006', titulo: 'Tipos de crédito empresarial', contenido: 'Explorá las distintas opciones de financiamiento para tu negocio.' },
-          { id: 'LEC-007', titulo: 'Plan de inversión', contenido: 'Cómo elaborar un plan sólido para invertir tu crédito.' },
-          { id: 'LEC-008', titulo: 'Gestión de flujo de caja', contenido: 'Mantené un flujo de caja saludable mientras pagás tu crédito.' },
+          { id: 'LEC-006', titulo: 'Tipos de crédito empresarial', contenido: 'Explore las distintas opciones de financiamiento para su negocio.' },
+          { id: 'LEC-007', titulo: 'Plan de inversión', contenido: 'Cómo elaborar un plan sólido para invertir su crédito.' },
+          { id: 'LEC-008', titulo: 'Gestión de flujo de caja', contenido: 'Mantené un flujo de caja saludable mientras pagás su crédito.' },
           { id: 'LEC-009', titulo: 'Escalando con deuda inteligente', contenido: 'Usá el apalancamiento financiero de forma responsable.' },
         ],
       },
       {
         id: 'CUR-004',
         titulo: 'Protección contra Fraude Financiero',
-        descripcion: 'Identificá estafas y protegé tus datos financieros en el mundo digital.',
+        descripcion: 'Identificá estafas y protegé sus datos financieros en el mundo digital.',
         nivel: 'intermedio',
         duracionHoras: 3,
         icono: 'shield',
         bonificacionTasa: 2.5,
         lecciones: [
-          { id: 'LEC-010', titulo: 'Estafas comunes', contenido: 'Conocé las tácticas más usadas por defraudadores.' },
-          { id: 'LEC-011', titulo: 'Protección de datos', contenido: 'Buenas prácticas para mantener tu información segura.' },
-          { id: 'LEC-012', titulo: '¿Qué hacer si fuiste víctima?', contenido: 'Pasos a seguir si sospechás que fuiste defraudado.' },
+          { id: 'LEC-010', titulo: 'Estafas comunes', contenido: 'Conozca las tácticas más usadas por defraudadores.' },
+          { id: 'LEC-011', titulo: 'Protección de datos', contenido: 'Buenas prácticas para mantener su información segura.' },
+          { id: 'LEC-012', titulo: '¿Qué hacer si fuiste víctima?', contenido: 'Pasos a seguir si sospecha que fue defraudado.' },
         ],
       },
     ];
@@ -78,7 +78,7 @@ export class EducacionService {
       { id: 'LOG-001', nombre: 'Primer paso', descripcion: 'Completaste tu primer curso', icono: 'star', desbloqueado: false },
       { id: 'LOG-002', nombre: 'Estudiante constante', descripcion: 'Completaste 3 cursos', icono: 'book', desbloqueado: false },
       { id: 'LOG-003', nombre: 'Master financiero', descripcion: 'Completaste todos los cursos', icono: 'trophy', desbloqueado: false },
-      { id: 'LOG-004', nombre: 'Score boost', descripcion: 'Mejoraste tu conocimiento en scoring', icono: 'trending-up', desbloqueado: false },
+      { id: 'LOG-004', nombre: 'Score boost', descripcion: 'Mejoraste su conocimiento en scoring', icono: 'trending-up', desbloqueado: false },
     ];
   }
 

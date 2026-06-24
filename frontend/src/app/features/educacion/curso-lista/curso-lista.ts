@@ -8,18 +8,18 @@ import { EducacionService } from '../../../core/services/educacion.service';
   template: `
     <div class="educacion-container">
       <h1 class="page-title">Educación Financiera</h1>
-      <p class="page-subtitle">Mejorá tu score crediticio mientras aprendés. Cada curso completado bonifica tu tasa de interés.</p>
+      <p class="page-subtitle">Mejore su puntaje crediticio mientras aprende. Cada curso completado bonifica su tasa de interés.</p>
 
       <div class="bonificacion-banner">
         <i class="bx bxs-gift"></i>
         <div class="banner-info">
           <span class="banner-title">Bonificación acumulada</span>
-          <span class="banner-value">{{ bonificacionTotal() }}% de descuento en tu tasa</span>
+          <span class="banner-value">{{ bonificacionTotal() }}% de descuento en su tasa</span>
         </div>
       </div>
 
       <div class="logros-section">
-        <h2 class="section-title">Tus logros</h2>
+        <h2 class="section-title">Sus logros</h2>
         <div class="logros-grid">
           @for (logro of progresoService.logros(); track logro.id) {
             <div class="logro-card" [class.bloqueado]="!logro.desbloqueado">
@@ -28,7 +28,7 @@ import { EducacionService } from '../../../core/services/educacion.service';
               <span class="logro-desc">{{ logro.descripcion }}</span>
             </div>
           } @empty {
-            <p class="empty-text">Completá cursos para desbloquear logros</p>
+            <p class="empty-text">Complete cursos para desbloquear logros</p>
           }
         </div>
       </div>
@@ -51,7 +51,7 @@ import { EducacionService } from '../../../core/services/educacion.service';
                   <span class="curso-lecciones">{{ curso.lecciones.length }} lecciones</span>
                 </div>
                 <div class="curso-bonus">
-                  <i class="bx bxs-star"></i> Bonifica {{ curso.bonificacionTasa }}% en tu tasa
+                  <i class="bx bxs-star"></i> Bonifica {{ curso.bonificacionTasa }}% en su tasa
                 </div>
               </div>
               @if (getProgreso(curso.id); as prog) {

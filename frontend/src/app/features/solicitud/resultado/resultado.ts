@@ -21,7 +21,7 @@ import type { AnalisisFraude } from '../../../core/models/fraude';
       @if (solicitud(); as sol) {
         <div class="resultado-card">
           <div class="resultado-header">
-            <h1>Resultado de tu solicitud</h1>
+            <h1>Resultado de su solicitud</h1>
             <p class="solicitud-id">{{ sol.id }}</p>
           </div>
 
@@ -40,7 +40,7 @@ import type { AnalisisFraude } from '../../../core/models/fraude';
           @if (decisionData().decision === 'automatica_aprobada') {
             <div class="aprobado-box">
               <p class="aprobado-text">
-                ¡Felicitaciones! Tu crédito fue aprobado automáticamente.
+                ¡Felicidades! Su crédito fue aprobado automáticamente.
               </p>
               <div class="condiciones">
                 <div class="cond-row">
@@ -69,18 +69,18 @@ import type { AnalisisFraude } from '../../../core/models/fraude';
           } @else if (decisionData().decision === 'automatica_rechazada') {
             <div class="rechazado-box">
               <p class="rechazado-text">
-                Lo sentimos, no podemos aprobar tu crédito en este momento.
+                Lo sentimos, no podemos aprobar su crédito en este momento.
               </p>
               <p class="rechazado-detail">
-                Tu score no alcanza el umbral mínimo requerido. Te recomendamos
-                mejorar tu historial de pagos y volver a intentar en 3 meses.
+                Su puntaje no alcanza el umbral mínimo requerido. Le recomendamos
+                mejorar su historial de pagos y volver a intentar en 3 meses.
               </p>
             </div>
           } @else {
             <div class="revision-box">
               <p class="revision-text">
-                Tu solicitud pasó a revisión manual. Un analista la evaluará
-                y te daremos una respuesta en las próximas 24 horas hábiles.
+                Su solicitud pasó a revisión manual. Un analista la evaluará
+                y le daremos una respuesta en las próximas 24 horas hábiles.
               </p>
               <p class="revision-id">N° de seguimiento: <strong>{{ sol.id }}</strong></p>
             </div>

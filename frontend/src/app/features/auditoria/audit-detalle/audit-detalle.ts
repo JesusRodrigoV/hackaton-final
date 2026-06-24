@@ -16,7 +16,7 @@ import { ScoreGaugeComponent } from '../../../shared/components/score-gauge/scor
         <div class="header-section">
           <div>
             <h1 class="page-title">Trazabilidad de Solicitud {{ d.solicitudId }}</h1>
-            <p class="page-subtitle">Auditoría completa de scoring y decisión para la Superintendencia de Bancos</p>
+            <p class="page-subtitle">Auditoría completa de evaluación y decisión para la Superintendencia de Bancos</p>
           </div>
           <p-tag
             [value]="d.decision === 'automatica_aprobada' ? 'APROBADO' : d.decision === 'automatica_rechazada' ? 'RECHAZADO' : 'REVISIÓN MANUAL'"
@@ -73,12 +73,12 @@ import { ScoreGaugeComponent } from '../../../shared/components/score-gauge/scor
           </div>
           <div class="modelo-version">
             <i class="bx bx-cog"></i>
-            <span>Modelo de scoring v2.1.3 — Pipeline de 6 pasos completado en 4.2 segundos</span>
+            <span>Modelo de evaluación v2.1.3 — Flujo de 6 pasos completado en 4.2 segundos</span>
           </div>
         </div>
 
         <div class="card trazabilidad-card">
-          <h2 class="card-title">Trazabilidad del Pipeline de Scoring</h2>
+          <h2 class="card-title">Trazabilidad del Flujo de Evaluación</h2>
           <div class="timeline">
             @for (paso of d.trazabilidad; track paso.paso) {
               <div class="timeline-item">

@@ -15,8 +15,8 @@ import { Component, output, signal } from '@angular/core';
       @if (!file()) {
         <div class="upload-placeholder">
           <i class="bx bx-cloud-upload" style="font-size: 2.5rem; color: var(--p-surface-600)"></i>
-          <p class="upload-text">Sube tu documento de identidad</p>
-          <p class="upload-hint">Arrastra o haz clic para seleccionar</p>
+          <p class="upload-text">Suba su documento de identidad</p>
+          <p class="upload-hint">Arrastre o haga clic para seleccionar</p>
         </div>
       } @else {
         <div class="upload-preview">

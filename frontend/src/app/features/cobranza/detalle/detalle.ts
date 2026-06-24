@@ -79,7 +79,7 @@ import type { PrestamoEstado, Pago } from '../../../core/models/cobranza';
         <div class="dialog-body">
           <div class="field"><label class="field-label">Nuevo monto total</label><p-inputNumber [(ngModel)]="nuevoMonto" [min]="100" [step]="50" prefix="$ " class="input-field" /></div>
           <div class="field"><label class="field-label">Nuevo plazo (meses)</label><p-inputNumber [(ngModel)]="nuevoPlazo" [min]="1" [max]="24" class="input-field" /></div>
-          <div class="field"><label class="field-label">Motivo de la reestructuración</label><textarea pInputTextarea [(ngModel)]="motivoAcuerdo" rows="3" class="input-field" placeholder="Describí el motivo..."></textarea></div>
+          <div class="field"><label class="field-label">Motivo de la reestructuración</label><textarea pInputTextarea [(ngModel)]="motivoAcuerdo" rows="3" class="input-field" placeholder="Describa el motivo..."></textarea></div>
           @if (nuevoMonto() > 0 && nuevoPlazo() > 0) { <div class="preview"><span>Nueva cuota estimada:</span><strong>{{ (nuevoMonto() / nuevoPlazo()) | currency:'USD':'symbol':'1.0-0' }}/mes</strong></div> }
         </div>
         <div class="dialog-actions">

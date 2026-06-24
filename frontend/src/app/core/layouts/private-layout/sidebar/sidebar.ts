@@ -49,7 +49,7 @@ export class SidebarComponent {
   }
 
   readonly navItems: NavItem[] = [
-    { label: 'Dashboard', icon: 'grid-alt', route: '/analista' },
+    { label: 'Panel', icon: 'grid-alt', route: '/analista' },
     { label: 'Solicitudes', icon: 'file-blank', route: '/analista' },
     { label: 'Cobranza', icon: 'time', route: '/analista/prestamos' },
     { label: 'Inversores', icon: 'trending-up', route: '/inversores' },

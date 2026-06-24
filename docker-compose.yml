@@ -1,13 +1,69 @@
 services:
-  frontend:
+  api-gateway:
     build:
-      context: ./frontend
+      context: ./api-gateway
       dockerfile: Dockerfile
     ports:
-      - "4200:80"
+      - "8001:8001"
+    environment:
+      PORT: 8001
+      CREDIT_SERVICE_URL: http://host.docker.internal:8000
+      SCORING_RAW_SERVICE_URL: http://ms-scoring:5000
+      OPERATIONS_SERVICE_URL: http://ms-operaciones:8003
+      PROXY_TIMEOUT_MS: 12000
+      SCORING_SIMULATE_DELAY: 1
+    depends_on:
+      - ms-scoring
+      - ms-operaciones
+    networks:
+      - hackaton-net
+
+  ms-scoring:
+    build:
+      context: ./ms-scoring
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      PORT: 5000
+    networks:
+      - hackaton-net
+
+  ms-operaciones:
+    build:
+      context: ./ms-operaciones
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8003"
+    env_file:
+      - ./ms-operaciones/.env
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - hackaton-net
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: neolend
+      POSTGRES_PASSWORD: neolend123
+      POSTGRES_DB: ms_operaciones
+    ports:
+      - "5435:5432"
+    volumes:
+      - ms_operaciones_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U neolend -d ms_operaciones"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - hackaton-net
 
 networks:
   hackaton-net:
     driver: bridge
+
+volumes:
+  ms_operaciones_data:

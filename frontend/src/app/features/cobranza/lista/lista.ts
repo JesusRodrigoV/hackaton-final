@@ -18,7 +18,7 @@ import type { PrestamoEstado } from '../../../core/models/cobranza';
     <div class="cobranza-container">
       <div class="header">
         <h1>Gestión de Cobranza</h1>
-        <p class="subtitle">Administrá la cartera de préstamos activos</p>
+        <p class="subtitle">Administre la cartera de préstamos activos</p>
       </div>
       <div class="metrics">
         <app-metric-card label="Al día" [value]="alDia().toString()" color="var(--p-green-500)" />

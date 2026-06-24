@@ -58,7 +58,7 @@ import type { AnalisisFraude } from '../../../core/models/fraude';
           </div>
 
           <div class="score-card">
-            <h2 class="card-title">Score Crediticio</h2>
+            <h2 class="card-title">Puntaje Crediticio</h2>
             <app-score-gauge [puntaje]="scoreData().puntaje" />
             <div class="score-details">
               <div class="score-detail">
@@ -88,7 +88,7 @@ import type { AnalisisFraude } from '../../../core/models/fraude';
             <h2 class="card-title">Decisión del analista</h2>
             <p class="decision-desc">
               @if (sol.estado === 'pendiente') {
-                Esta solicitud requiere revisión manual. Revisá los factores de scoring y tomá una decisión.
+                Esta solicitud requiere revisión manual. Revise los factores de evaluación y tome una decisión.
               } @else if (sol.estado === 'aprobado_auto' || sol.estado === 'aprobado_manual') {
                 Solicitud aprobada. {{ sol.analistaId ? 'Analista: ' + sol.analistaId : 'Aprobación automática.' }}
               } @else if (sol.estado === 'rechazado') {

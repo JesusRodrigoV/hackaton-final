@@ -11,16 +11,16 @@ export class DesembolsoService {
 
   constructor() {
     const billeteraCampos: CampoFormulario[] = [
-      { key: 'proveedor', label: 'Proveedor', placeholder: 'Seleccioná tu billetera', tipo: 'select', opciones: ['Yape', 'Plin', 'Tigo Money', 'Simple', 'BIM'] },
+      { key: 'proveedor', label: 'Proveedor', placeholder: 'Seleccione su billetera', tipo: 'select', opciones: ['Yape', 'Plin', 'Tigo Money', 'Simple', 'BIM'] },
       { key: 'numero', label: 'Número de cuenta', placeholder: 'Ej: 59170000000', tipo: 'text' },
     ];
     const transferenciaCampos: CampoFormulario[] = [
-      { key: 'banco', label: 'Banco', placeholder: 'Seleccioná tu banco', tipo: 'select', opciones: ['Banco Nacional', 'Banco Continental', 'Banco del Sur', 'Banco Regional'] },
+      { key: 'banco', label: 'Banco', placeholder: 'Seleccione su banco', tipo: 'select', opciones: ['Banco Nacional', 'Banco Continental', 'Banco del Sur', 'Banco Regional'] },
       { key: 'cuenta', label: 'Número de cuenta', placeholder: 'Ej: 1234567890', tipo: 'text' },
       { key: 'titular', label: 'Titular de la cuenta', placeholder: 'Nombre completo', tipo: 'text' },
     ];
     const efectivoCampos: CampoFormulario[] = [
-      { key: 'corresponsal', label: 'Red de corresponsales', placeholder: 'Seleccioná una red', tipo: 'select', opciones: ['Western Union', 'MoneyGram', 'Red Envios', 'PagoExpress'] },
+      { key: 'corresponsal', label: 'Red de corresponsales', placeholder: 'Seleccione una red', tipo: 'select', opciones: ['Western Union', 'MoneyGram', 'Red Envios', 'PagoExpress'] },
       { key: 'codigo', label: 'Código de sucursal', placeholder: 'Ej: SUC-001', tipo: 'text' },
     ];
 
@@ -29,7 +29,7 @@ export class DesembolsoService {
         id: 'billetera_digital',
         nombre: 'Billetera digital',
         icono: 'pi pi-mobile',
-        descripcion: 'Recibí el dinero al instante en tu billetera digital',
+        descripcion: 'Reciba el dinero al instante en su billetera digital',
         tiempoEstimado: 'Instantáneo',
         campos: billeteraCampos,
       },
@@ -37,7 +37,7 @@ export class DesembolsoService {
         id: 'transferencia_bancaria',
         nombre: 'Transferencia bancaria',
         icono: 'pi pi-building-columns',
-        descripcion: 'Transferencia a tu cuenta bancaria en 24 horas hábiles',
+        descripcion: 'Transferencia a su cuenta bancaria en 24 horas hábiles',
         tiempoEstimado: '24 horas',
         campos: transferenciaCampos,
       },
@@ -45,7 +45,7 @@ export class DesembolsoService {
         id: 'efectivo_corresponsal',
         nombre: 'Retiro en efectivo',
         icono: 'pi pi-dollar',
-        descripcion: 'Retirá el efectivo en un corresponsal autorizado',
+        descripcion: 'Retire el efectivo en un corresponsal autorizado',
         tiempoEstimado: '2 horas',
         campos: efectivoCampos,
       },

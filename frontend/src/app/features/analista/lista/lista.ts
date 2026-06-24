@@ -18,7 +18,7 @@ import type { SolicitudEstado } from '../../../core/models/solicitud';
     <div class="lista-container">
       <div class="header">
         <h1>Panel de Analista</h1>
-        <p class="subtitle">Gestioná las solicitudes de crédito pendientes</p>
+        <p class="subtitle">Gestione las solicitudes de crédito pendientes</p>
       </div>
 
       <div class="metrics">

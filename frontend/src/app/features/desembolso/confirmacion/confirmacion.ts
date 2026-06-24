@@ -70,9 +70,9 @@ export class ConfirmacionComponent {
 
   readonly statusDesc = computed(() => {
     const e = this.desembolso()?.estado;
-    if (e === 'completado') return 'El dinero ya está disponible en tu cuenta.';
-    if (e === 'fallido') return 'Hubo un problema al procesar el desembolso. Intentalo de nuevo.';
-    return 'Estamos procesando tu desembolso. Esto puede tomar unos minutos.';
+    if (e === 'completado') return 'El dinero ya está disponible en su cuenta.';
+    if (e === 'fallido') return 'Hubo un problema al procesar el desembolso. Inténtelo de nuevo.';
+    return 'Estamos procesando su desembolso. Esto puede tomar unos minutos.';
   });
 
   readonly statusTag = computed(() => {

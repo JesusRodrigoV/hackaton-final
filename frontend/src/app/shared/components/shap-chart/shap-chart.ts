@@ -13,7 +13,7 @@ function contribucionTexto(contribucion: number): string {
   selector: 'app-shap-chart',
   template: `
     <div class="shap-chart">
-      <h3 class="shap-title">Factores que influyen en tu score</h3>
+      <h3 class="shap-title">Factores que influyen en su puntaje</h3>
       <div class="shap-bars">
         @for (factor of factores(); track factor.nombre) {
           <div class="shap-row">

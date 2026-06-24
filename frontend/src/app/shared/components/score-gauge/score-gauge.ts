@@ -21,7 +21,7 @@ import { Component, input, computed } from '@angular/core';
         </svg>
         <div class="gauge-center">
           <span class="gauge-value">{{ puntaje() }}</span>
-          <span class="gauge-label">Score</span>
+          <span class="gauge-label">Puntaje</span>
         </div>
       </div>
       <div class="gauge-info">
